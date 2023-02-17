@@ -12,6 +12,13 @@ function App() {
     let [글변경, 글변경함수] = useState(["커스터드 케이키", "딸기 쇼트 푸딩", "설향 바나나"]);
   
 
+  function 제목변경() {
+    let newItem = [...글제목]; /* 특히나 array나 object일 경우 복사를 해서 state변경. (참고 - state는 직접 변경이 안 됨) */
+    newItem[0] = "커스터드 케이키";
+    글제목변경함수( newItem );
+    }
+  
+
   return (
     <div className="App">
       <div className='black-nav'>
@@ -35,7 +42,7 @@ function App() {
         <p>2023-02-15</p>
         <hr/>
       </div>
-      <button onClick={ ()=> { 글제목변경함수(글변경) } }>글 변경</button>
+      <button onClick={ 제목변경 }>글 변경</button>
     </div>
   );
 }
