@@ -5,7 +5,7 @@ import { useState } from 'react'; /* 리액트에 있는 내장함수를 하나 
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 다른 컴포넌트 창조시 이거 밑에 나란히 만들면 된다! */
   
     let [글제목, 글제목변경함수] = useState(["푸딩 종류", "설향 딸기 라떼 만들기", "촉촉한 딸기 쇼트 케이키"]);
     let [따봉, 따봉변경함수] = useState(0);
@@ -43,8 +43,32 @@ function App() {
         <hr/>
       </div>
       <button onClick={ 제목변경 }>글 변경</button>
+
+      <Modal></Modal>
+      <Pudding />
+
     </div>
   );
+}
+
+function Modal() { /* 리액트 특징 7. 긴 html 코드를 component를 이용해서 축약 및 치환할 수 있다! => 관리가 편해진다. 그렇지만 뭐든 과하면 복잡하듯, 많이 만들면 관리가 점점 더 어려워지니 꼭 필요할 때만 만들기를!*/
+  return (
+          <div className='modal'>
+        <h2>제목</h2>
+        <p>날짜</p>
+        <p>상세내용</p>
+    </div>
+  )
+}
+
+function Pudding() {
+  return (
+    <>
+  <div>푸딩딩코코딩</div>
+    <div>뿌뿌링~</div>
+    <p>코 흥~</p>
+  </>
+  )
 }
 
 export default App;
