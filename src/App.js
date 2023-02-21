@@ -8,16 +8,22 @@ import './App.css';
 function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 다른 컴포넌트 창조시 이거 밑에 나란히 만들면 된다! */
   
     let [글제목, 글제목변경함수] = useState(["푸딩 종류", "설향 딸기 라떼 만들기", "촉촉한 딸기 쇼트 케이키"]);
-    let [따봉, 따봉변경함수] = useState(0);
+    let [따봉, 따봉변경함수] = useState([0, 0, 0]);
     let [글변경, 글변경함수] = useState(["커스터드 케이키", "딸기 쇼트 푸딩", "설향 바나나"]);
-  let [modal, setModal] = useState("닫힘"); /* 여기에는 현재 상태를 적어주는 게 좋다고 했지만, false로 하신 걸 보니 주로 처음 웹페이지에 들어갔을 때 보였으면 좋겠는 상태를 적는 게 좋은 것 같다! 닫힘 열림 외에도 0이나 1, true나 false와 같이 상태를 표현할 수 있는 말이면 다 되는 것 같다! */
+  let [modal, setModal] = useState(false); /* 여기에는 현재 상태를 적어주는 게 좋다고 했지만, false로 하신 걸 보니 주로 처음 웹페이지에 들어갔을 때 보였으면 좋겠는 상태를 적는 게 좋은 것 같다! 닫힘 열림 외에도 0이나 1, true나 false와 같이 상태를 표현할 수 있는 말이면 다 되는 것 같다! */
   
 
   function 제목변경() {
     let newItem = [...글제목]; /* 특히나 array나 object일 경우 복사를 해서 state변경. (참고 - state는 직접 변경이 안 됨) */
     newItem[0] = "커스터드 케이키";
     글제목변경함수( newItem );
-    }
+  }
+  
+  function likeItCount() {
+    let like = [...따봉];
+    like[i] = like[i] + 1;
+    따봉변경함수( like )
+  }
   
 
   return (
@@ -26,8 +32,8 @@ function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 �
         <div>개발 Blog</div>
       </div>
 
-      <div className='list'>
-      <h3> { 글제목[0] } <span onClick={ ()=>{ 따봉변경함수(1) } }>🧡</span> { 따봉 } </h3> {/* 굳이 따봉+1이라고 적지 않고 상태를 1로 바꾸어 주는 것만으로도 될 것 같아서 바꿨는데 성공! */}
+      {/* <div className='list'>
+      <h3> { 글제목[0] } <span onClick={ ()=>{ 따봉변경함수(1) } }>🧡</span> { 따봉 } </h3>
         <p>2023-02-13</p>
         <hr/>
       </div>
@@ -39,20 +45,35 @@ function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 �
       </div>
 
       <div className='list'>
-      <h3  onClick={ () => { setModal("열림") } }> { 글제목[2] } </h3>
+      <h3  onClick={ () => { setModal(!modal) } }> { 글제목[2] } </h3>
         <p>2023-02-15</p>
         <hr/>
-      </div>
+      </div> */}
+      
       <button onClick={ 제목변경 }>글 변경</button>
 
       {
-        modal == "열림" ? <Modal /> : ""
-        
+        modal == true ? <Modal /> : null
       }
 
+      {
+       글제목.map(function (a, i){
+         return (<div className='list' key={i}>
+          <h3 /* onClick={() => { setModal(!modal) }} */> { a }
+             <span onClick={() => {
+               let like = [...따봉];
+                like[i] = like[i] + 1;
+               따봉변경함수(like)
+             }}
+             className="like">🧡</span>
+            { 따봉[i] }
+          </h3>
+        <p>2023-02-15</p>
+        <hr/>
+      </div>)
+        })
+      }
 
-
-{/* html 중간에 조건문을 쓰려면 삼항연산자를 사용하면 된다! - if 사용 불가 */}
     </div>
   );
 }
