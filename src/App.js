@@ -30,11 +30,17 @@ function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 �
   }
 
 
-  function createItem() { /* 숙제 구현) array item 추가하는 방법 */
+  function createItem() { /* unshift로 구현) array item 추가하는 방법 */
     let newArray = [...글제목];
-    let newArrayPush = ["회전 초밥", "새우 계란 초밥", "초코 시럽 빙수"]
+    let newArrayPush = newArray.unshift(inputValue);
     let arrayAddItem = newArray.concat(newArrayPush)
     글제목변경함수(arrayAddItem)
+  }
+
+  const deleteItem = (i) => {
+    let newArray = [...글제목];
+    newArray.splice(i, 1);
+    글제목변경함수(newArray);
   }
   
 
@@ -56,7 +62,10 @@ function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 �
              }}
              className="like">🧡</span>
             { 따봉[i] }
-           <button onClick={(e) => { console.log(e) }}>❌</button>
+             <button onClick={(e) => {
+               e.stopPropagation();
+               deleteItem(i);
+             }}>❌</button>
           </h3>
            <p>2023-02-15</p>
         <hr/>
