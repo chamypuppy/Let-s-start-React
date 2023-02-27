@@ -12,6 +12,8 @@ function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 �
     let [글변경, 글변경함수] = useState(["커스터드 케이키", "딸기 쇼트 푸딩", "설향 바나나"]);
     let [modal, setModal] = useState(false); /* 여기에는 현재 상태를 적어주는 게 좋다고 했지만, false로 하신 걸 보니 주로 처음 웹페이지에 들어갔을 때 보였으면 좋겠는 상태를 적는 게 좋은 것 같다! 닫힘 열림 외에도 0이나 1, true나 false와 같이 상태를 표현할 수 있는 말이면 다 되는 것 같다! */
   let [color, setcolor] = useState(["orange", "pink", "skygreen"])
+  let [title, setTitle] = useState(0);
+  let [inputValue, setInputValue] = useState(""); /* 인풋값을 저장할 거기 때문에 텅 빈 문자열로 지정 */
   
 
   function 제목변경() {
@@ -26,6 +28,14 @@ function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 �
     like[i] = like[i] + 1;
     따봉변경함수( like )
   }
+
+
+  function createItem() { /* 숙제 구현) array item 추가하는 방법 */
+    let newArray = [...글제목];
+    let newArrayPush = ["회전 초밥", "새우 계란 초밥", "초코 시럽 빙수"]
+    let arrayAddItem = newArray.concat(newArrayPush)
+    글제목변경함수(arrayAddItem)
+  }
   
 
   return (
@@ -34,39 +44,21 @@ function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 �
         <div>개발 Blog</div>
       </div>
 
-      {/* <div className='list'>
-      <h3> { 글제목[0] } <span onClick={ ()=>{ 따봉변경함수(1) } }>🧡</span> { 따봉 } </h3>
-        <p>2023-02-13</p>
-        <hr/>
-      </div>
-
-      <div className='list'>
-      <h3> { 글제목[1] } </h3>
-        <p>2023-02-14</p>
-        <hr/>
-      </div>
-
-      <div className='list'>
-      <h3  onClick={ () => { setModal(!modal) } }> { 글제목[2] } </h3>
-        <p>2023-02-15</p>
-        <hr/>
-      </div> */}
-      
-
-
       {
        글제목.map(function (a, i){
          return (<div className='list' key={i}>
-          <h3 onClick={() => { setModal(!modal) }}> { a }
-             <span onClick={() => {
+           <h3 onClick={() => { setModal(!modal); setTitle(i) }}> { a }
+             <span onClick={(e) => {
+               e.stopPropagation();
                let like = [...따봉];
                 like[i] = like[i] + 1;
                따봉변경함수(like)
              }}
              className="like">🧡</span>
             { 따봉[i] }
+           <button onClick={(e) => { console.log(e) }}>❌</button>
           </h3>
-        <p>2023-02-15</p>
+           <p>2023-02-15</p>
         <hr/>
       </div>)
         })
@@ -75,18 +67,26 @@ function App() { /* 이 app function도 하나의 컴포넌트이기 때문에 �
             <button onClick={ 제목변경 }>글 변경</button>
 
       {
-        modal == true ? <Modal 글제목={글제목} color={color}
+        modal == true ? <Modal title={ title } 글제목={글제목} color={color}
           제목변경={제목변경} /> : null
       }
+
+
+      <input type="text" onChange={(e) => {
+        setInputValue(e.target.value);
+        console.log(inputValue);
+      }} />
+
+      <button onClick={ createItem }>글 추가</button>
 
     </div>
   );
 }
 
-function Modal(props) { /* 리액트 특징 7. 긴 html 코드를 component를 이용해서 축약 및 치환할 수 있다! => 관리가 편해진다. 그렇지만 뭐든 과하면 복잡하듯, 많이 만들면 관리가 점점 더 어려워지니 꼭 필요할 때만 만들기를!*/
+function Modal(props) {
   return (
     <div className='modal' style={{ background: props.color[1] }}>
-      <h2>{ props.글제목[0] }</h2>
+      <h2>{ props.글제목[props.title] }</h2>
         <p>날짜</p>
       <p>상세내용</p>
       <button onClick={ props.제목변경 }>글 제목 변경</button>

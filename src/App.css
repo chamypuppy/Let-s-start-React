@@ -33,6 +33,9 @@ body {
   cursor: pointer;
 }
 
+h3 {
+  cursor: pointer;
+}
 
 .App-logo {
   height: 40vmin;
